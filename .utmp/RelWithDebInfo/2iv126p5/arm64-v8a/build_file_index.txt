@@ -1,0 +1,2 @@
+D:\Programing in Unity\Lab4\hyper-xr26-lab4\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\CMakeLists.txt
+D:\Programing in Unity\Lab4\hyper-xr26-lab4\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\CMakeLists.txt

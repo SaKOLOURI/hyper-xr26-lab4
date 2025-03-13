@@ -27,9 +27,20 @@ public class ExampleGameSceneController : MonoBehaviour
     {
         if (gameManager == null)
         {
-            Initialize(GameManager.BootstrapFromEditor());
+            gameManager = GameManager.Instance;
+            if (gameManager == null)
+            {
+#if UNITY_EDITOR
+                gameManager = GameManager.BootstrapFromEditor();
+#else
+                Debug.LogError("GameManager instance not found!");
+                return;
+#endif
+            }
+            Initialize(gameManager);
         }
     }
+
 
     public void Initialize(GameManager gameManager)
     {

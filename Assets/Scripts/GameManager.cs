@@ -1,4 +1,5 @@
 using DG.Tweening;
+using DG.Tweening.Core.Easing;
 using System;
 using System.Collections;
 using TMPro;
@@ -17,14 +18,25 @@ public class GameManager : MonoBehaviour
     private bool useKeyboardMouse = false;
     [SerializeField]
     private LoadingScreen loadingScreen;
+    //   [SerializeField]
+    //   private TextMeshProUGUI scoreBoarde; // This is the TextMeshPro component for displaying the score
+    public bool gamehasbinstarted = false;
 
+    public static GameManager Instance { get; private set; } // Singleton
     public IInputProvider InputProvider { get; private set; }
     public LoadingScreen LoadingScreen => loadingScreen;
-
+    public int score = 0;
     private bool inTransition = false;
-
+    
     private void Awake()
     {
+        if (Instance != null)
+        {
+            Destroy(gameObject); // Prevent duplicate GameManager instances
+            return;
+        }
+
+        Instance = this;
         DontDestroyOnLoad(gameObject);
 
 #if !UNITY_EDITOR
@@ -42,11 +54,19 @@ public class GameManager : MonoBehaviour
         InputProvider.TryInitialize();
         loadingScreen.Initialize(InputProvider.GetHeadTransform());
     }
-
+/*    public void Update()
+    {
+        // Display the score from ExplodeOnTouch
+        scoreBoarde.text = $"Score:" + score; // Display updated score
+    }*/
     public Coroutine GoToGameScene()
     {
-        Debug.LogError("This part is for lab 4");
-        return null;
+
+        return StartCoroutine(LoadScene("Game", () =>
+        {
+            var sceneController = GameObject.FindAnyObjectByType<GameSceneController>();
+            sceneController.Initialize(this);
+        }));
     }
 
     public Coroutine GoToGameExampleScene()
